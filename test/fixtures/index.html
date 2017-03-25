@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ScrollHanko</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body style="margin: 0;">
+
+  <h1 style="text-align:center">ScrollHanko</h1>
+
+  <div class="container">
+    <div class="box">
+      <h2 id="heading1" class="headline" data-hanko-offset="3em">Heading 1</h2>
+    </div>
+    <div class="box">
+      <h2 id="heading2" class="headline" data-hanko-ref="heading2" data-hanko-offset="3em">Heading 2</h2>
+    </div>
+    <div class="box">
+      <h2 id="heading3" class="headline" data-hanko-closest=".box">Heading 3</h2>
+    </div>
+    <div class="box">
+      <h2 id="heading4" class="headline" data-hanko-offset="0">Heading 4</h2>
+    </div>
+    <div class="box">
+      <h2 id="heading5" class="headline" data-hanko-closest=".box">Heading 5</h2>
+    </div>
+  </div>
+
+  <div class="ball ball1" data-hanko-offset="center"></div>
+  <div class="ball ball2" data-hanko-offset="bottom"></div>
+  <div class="ball ball3" data-hanko-offset="top"></div>
+  <div class="ball ball4" data-hanko-offset="center"></div>
+
+  <script src="/scripts/scroll-hanko.js"></script>
+  <script src="/index.js"></script>
+</body>
+</html>
