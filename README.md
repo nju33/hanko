@@ -45,6 +45,17 @@ Then, download the latest version.
 -->
 <div class="target hanko-target hanko-leave hanko-leave-to"></div>
 
+<!--
+  You can adjust the position of the entry and have the following.
+
+  - top / When the element is at the top of the screen
+  - center / When the element is in the center of the screen
+  - bottom / When the element is at the bottom of the screen
+  - css-value / 2em,10px,etc / Expand the territory by the value specified above the element
+-->
+<!-- default:'top' -->
+<div data-hanko-offset="center">Heading 2</h2>
+
 <!-- When reading by itself -->
 <script src="/path/tp/apoc-sidebar.js"></script>
 ```
