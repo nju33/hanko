@@ -1,22 +1,22 @@
-# ScrollHanko
+# Hanko
 
 <!-- [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
-[![Build Status](https://travis-ci.org/nju33/scroll-hanko.svg?branch=master)](https://travis-ci.org/nju33/scroll-hanko) -->
+[![Build Status](https://travis-ci.org/nju33/hanko.svg?branch=master)](https://travis-ci.org/nju33/hanko) -->
 
 That for scroll event
 
 
-![screenshot](https://github.com/nju33/scroll-hanko/raw/master/images/screenshot.gif?raw=true)
+![screenshot](https://github.com/nju33/hanko/raw/master/images/screenshot.gif?raw=true)
 <!--
 ## Install or Download
 
 ```sh
-yarn add scroll-hanko
-npm i -S scroll-hanko
+yarn add hanko
+npm i -S hanko
 ```
 
-Or access to [releases page](https://github.com/nju33/scroll-hanko/releases).
+Or access to [releases page](https://github.com/nju33/hanko/releases).
 Then, download the latest version.
 
 ## Usage
@@ -24,7 +24,7 @@ Then, download the latest version.
 First, if you read as a separate file
 
 ```html
-<script src="/path/tp/scroll-hanko.js"></script>
+<script src="/path/tp/hanko.js"></script>
 ```
 
 ```js

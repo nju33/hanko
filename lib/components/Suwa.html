@@ -1,18 +1,18 @@
 {{#if style}}
-  <div ref:scroll-hanko class="scroll-hanko box" style="
+  <div ref:hanko class="hanko box" style="
     width: {{style.width}};
     height: {{style.height}};
   ">
-    <div ref:container class="scroll-hanko page-container">
-      <div ref:pages class="scroll-hanko pages" style="
+    <div ref:container class="hanko page-container">
+      <div ref:pages class="hanko pages" style="
         background-color: {{style.baseColor}};
       ">
       </div>
     </div>
 
     {{#if progress && pages.length > 0}}
-      <div class="scroll-hanko progress">
-        <div class="scroll-hanko progress bar" style="
+      <div class="hanko progress">
+        <div class="hanko progress bar" style="
           background-color: {{style.accentColor}};
           width: {{activeNth / (pages.length - 1) * 100}}%;
         ">
@@ -21,10 +21,10 @@
     {{/if}}
 
     {{#if pager && pages.length > 0}}
-      <div ref:pager class="scroll-hanko pager" style="
+      <div ref:pager class="hanko pager" style="
         bottom: {{pager.inset ? '1em' : '-2.3em'}};
       ">
-        <a role="button" class="scroll-hanko pager-link prev" style="
+        <a role="button" class="hanko pager-link prev" style="
           opacity: {{!pagerLoop && activeIdx === 0 ? 0 : 1}};
           cursor: {{!pagerLoop && activeIdx === 0 ? 'default' : ''}};
         "
@@ -32,7 +32,7 @@
            on:mouseover="mouseoverPagerIcon(event)"
            on:mouseleave="mouseleavePagerIcon(event)">
           <!-- octicon chevron-left -->
-          <svg version="1.1" viewBox="0 0 8 16" class="scroll-hanko pager icon" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 3L7 4.5 3.25 8 7 11.5 5.5 13l-5-5z"/></svg>
+          <svg version="1.1" viewBox="0 0 8 16" class="hanko pager icon" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 3L7 4.5 3.25 8 7 11.5 5.5 13l-5-5z"/></svg>
         </a>
         <div ref:pagerLinks class="pager-links">
           <a role="button" class="
@@ -67,18 +67,18 @@
             on:mouseleave="mouseleavePager(event, nextPage)"
           ></a>
         </div>
-        <a role="button" class="scroll-hanko pager-link next" style="
+        <a role="button" class="hanko pager-link next" style="
           opacity: {{!pagerLoop && activeIdx === pages.length - 1 ? 0 : 1}};
           cursor: {{!pagerLoop && activeIdx === pages.length - 1 ? 'default' : ''}};
         "
            on:click="changeNextPage()"
            on:mouseover="mouseoverPagerIcon(event)"
            on:mouseleave="mouseleavePagerIcon(event)">
-          <svg version="1.1" viewBox="0 0 8 16" class="scroll-hanko pager icon" aria-hidden="true"><path fill-rule="evenodd" d="M7.5 8l-5 5L1 11.5 4.75 8 1 4.5 2.5 3z"/></svg>
+          <svg version="1.1" viewBox="0 0 8 16" class="hanko pager icon" aria-hidden="true"><path fill-rule="evenodd" d="M7.5 8l-5 5L1 11.5 4.75 8 1 4.5 2.5 3z"/></svg>
         </a>
       </div>
 
-      <div class="scroll-hanko pager" style="
+      <div class="hanko pager" style="
         bottom: {{pager.inset ? '1em' : '-2.3em'}};
         display: {{pagerUpdating ? '' : 'none'}};
       ">
@@ -603,8 +603,8 @@ export default {
     const {container, pages} = this.refs;
 
     const children = (() => {
-      const {scroll-hanko} = this.refs;
-      const _children = filterChildren(scroll-hanko.parentElement, 'scroll-hanko');
+      const {hanko} = this.refs;
+      const _children = filterChildren(hanko.parentElement, 'hanko');
       _children.forEach((el, idx) => el.setAttribute('data-nth', idx));
 
       return this.get('pagerLoop') ? circulate(_children) : _children;

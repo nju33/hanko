@@ -9,7 +9,7 @@ const modules = require('postcss-modules');
 const {rollup} = require('rollup');
 const rollupConfig = require('./rollup.config');
 
-const MODULE_NAME = 'ScrollHanko';
+const MODULE_NAME = 'Hanko';
 const globals = {};
 
 exports.bundleAll = () => {
@@ -56,7 +56,7 @@ function bundle() {
               format,
               banner: rollupConfig.banner
             };
-            const destPath = './dist/scroll-hanko.js';
+            const destPath = './dist/hanko.js';
             try {
               fs.writeFileSync(destPath, bundle.generate(opts).code);
             } catch (err) {
@@ -70,7 +70,7 @@ function bundle() {
               globals,
               format
             };
-            const destPath = './dist/scroll-hanko.umd.js';
+            const destPath = './dist/hanko.umd.js';
             try {
               fs.writeFileSync(destPath, bundle.generate(opts).code);
             } catch (err) {
@@ -85,7 +85,7 @@ function bundle() {
               format,
               exports: 'default'
             };
-            const destPath = './dist/scroll-hanko.es.js';
+            const destPath = './dist/hanko.es.js';
             try {
               fs.writeFileSync(destPath, bundle.generate(opts).code);
             } catch (err) {

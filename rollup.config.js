@@ -10,7 +10,7 @@ const banner = `
 /*!
  * Copyright 2017, nju33
  * Released under the MIT License
- * https://github.com/nju33/scroll-hanko
+ * https://github.com/nju33/hanko
  */
 `.trim();
 
@@ -19,7 +19,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 module.exports = {
   banner,
   cache: null,
-  entry: 'lib/scroll-hanko.js',
+  entry: 'lib/hanko.js',
   plugins: [
     nodeResolver({jsnext: true}),
     commonjs({include: 'node_modules/**'}),

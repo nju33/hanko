@@ -1,9 +1,9 @@
 /*!
  * Copyright 2017, nju33
  * Released under the MIT License
- * https://github.com/nju33/scroll-hanko
+ * https://github.com/nju33/hanko
  */
-var ScrollHanko = (function () {
+var Hanko = (function () {
 'use strict';
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -24,6 +24,7 @@ var _cof = function(it){
   return toString.call(it).slice(8, -1);
 };
 
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = _cof;
 var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
@@ -35,6 +36,7 @@ var _defined = function(it){
   return it;
 };
 
+// to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = _iobject;
 var defined = _defined;
 var _toIobject = function(it){
@@ -60,6 +62,7 @@ var _isObject = function(it){
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
 
+// 7.1.1 ToPrimitive(input [, PreferredType])
 var isObject = _isObject;
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
@@ -85,6 +88,7 @@ var _fails = function(exec){
   }
 };
 
+// Thank's IE8 for his funny defineProperty
 var _descriptors = !_fails(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
@@ -138,6 +142,7 @@ var _aFunction = function(it){
   return it;
 };
 
+// optional / simple context binding
 var aFunction = _aFunction;
 var _ctx = function(fn, that, length){
   aFunction(fn);
@@ -256,6 +261,7 @@ $export$1.U = 64;  // safe
 $export$1.R = 128; // real proto method for `library` 
 var _export = $export$1;
 
+// most Object methods by ES6 should accept primitives
 var $export = _export;
 var core    = _core;
 var fails   = _fails;
@@ -266,6 +272,7 @@ var _objectSap = function(KEY, exec){
   $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
 };
 
+// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
 var toIObject                 = _toIobject;
 var $getOwnPropertyDescriptor = _objectGopd.f;
 
@@ -293,6 +300,7 @@ var _toInteger = function(it){
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
 
+// 7.1.15 ToLength
 var toInteger = _toInteger;
 var min       = Math.min;
 var _toLength = function(it){
@@ -307,6 +315,8 @@ var _toIndex = function(index, length){
   return index < 0 ? max(index + length, 0) : min$1(index, length);
 };
 
+// false -> Array#indexOf
+// true  -> Array#includes
 var toIObject$3 = _toIobject;
 var toLength  = _toLength;
 var toIndex   = _toIndex;
@@ -369,6 +379,7 @@ var _enumBugKeys = (
   'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 ).split(',');
 
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
 var $keys       = _objectKeysInternal;
 var enumBugKeys = _enumBugKeys;
 
@@ -382,11 +393,13 @@ var _objectGops = {
 	f: f$3
 };
 
+// 7.1.13 ToObject(argument)
 var defined$1 = _defined;
 var _toObject = function(it){
   return Object(defined$1(it));
 };
 
+// 19.1.2.1 Object.assign(target, source, ...)
 var getKeys  = _objectKeys;
 var gOPS     = _objectGops;
 var pIE$1      = _objectPie;
@@ -419,6 +432,7 @@ var _objectAssign = !$assign || _fails(function(){
   } return T;
 } : $assign;
 
+// 19.1.3.1 Object.assign(target, source)
 var $export$2 = _export;
 
 $export$2($export$2.S + $export$2.F, 'Object', {assign: _objectAssign});
@@ -573,6 +587,7 @@ function isObject$5(value) {
 
 var isObject_1 = isObject$5;
 
+/** Detect free variable `global` from Node.js. */
 var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
 
 var _freeGlobal = freeGlobal$1;
@@ -1311,6 +1326,7 @@ var HankoElement = (_class = function () {
 
     this.addClasses('target', 'deactive');
     this.entered = false;
+    this.stoped = false;
 
     var detail = { hanko: this };
     this.events = {
@@ -1468,6 +1484,7 @@ var HankoElement = (_class = function () {
       }
 
       this.entered = false;
+      this.stoped = false;
       this.removeClasses('active', 'enter', 'enter-to');
       this.addClasses('leave');
       this.element.style.transition = 'none';
@@ -1541,6 +1558,7 @@ var Hanko = autobind(_class2 = function () {
 
     this.handleThrottleScroll = this.createThrottleScrollHandler();
     this.handleDebounceScroll = this.createDebounceScrollHandler();
+    // this.handleThrottleTouchmove = this.createThrottleTouchmoveHandler();
     this.handleThrottleResize = this.createThrottleResizeHandler();
     this.handleDebounceResize = this.createDebounceResizeHandler();
 
@@ -1567,7 +1585,11 @@ var Hanko = autobind(_class2 = function () {
     value: function handleScroll() {
       this.hankoElements.forEach(function () {
         return function (hanko) {
-          if (hanko.hasPositionFixed()) {
+          if (hanko.hasPositionFixed() && 'ontouchstart' in document.body) {
+            if (!hanko.stoped) {
+              window.scrollTo(pageXOffset, pageYOffset);
+              hanko.stoped = true;
+            }
             return;
           } else if (hanko.isEnter()) {
             hanko.enter();
@@ -1587,6 +1609,25 @@ var Hanko = autobind(_class2 = function () {
     value: function createDebounceScrollHandler() {
       return debounce_1(this.handleScroll, this.opts.scrollWait || 20);
     }
+
+    // createThrottleTouchmoveHandler() {
+    //   const fn = (() => {
+    //     let i = 0;
+    //     // return throttle(ev => {
+    //     return ev => {
+    //
+    //       i++;
+    //       if (i % 2 === 1) {
+    //         ev.preventDefault();
+    //         return;
+    //       }
+    //       this.handleScroll();
+    //     };
+    //     // }, this.opts.scrollWait || 20);
+    //   })();
+    //   return throttle(fn, 2);
+    // }
+
   }, {
     key: 'handleResize',
     value: function handleResize() {
@@ -1612,17 +1653,10 @@ var Hanko = autobind(_class2 = function () {
   }, {
     key: 'init',
     value: function init() {
-      var _this6 = this;
-
       window.addEventListener('scroll', this.handleThrottleScroll);
       window.addEventListener('scroll', this.handleDebounceScroll);
       window.addEventListener('resize', this.handleThrottleResize);
       window.addEventListener('resize', this.handleDebounceResize);
-      window.addEventListener('touchmove', function () {
-        console.log(9);
-        _this6.handleThrottleScroll();
-      });
-      // window.addEventListener('touchmove', this.handleThrottleScroll);
     }
   }, {
     key: 'teardown',

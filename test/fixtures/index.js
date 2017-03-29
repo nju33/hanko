@@ -2,7 +2,7 @@
   const els = document.getElementsByClassName('headline');
   window.addEventListener('DOMContentLoaded', () => {
     (() => {
-      const scrollHanko = new ScrollHanko(els);
+      const scrollHanko = new Hanko(els);
       scrollHanko.init();
       Array.prototype.slice.call(els).forEach(function (el) {
         el.addEventListener('hankoenter', ev => {
@@ -23,7 +23,7 @@
 
     (() => {
       const scrollHanko =
-        new ScrollHanko(document.getElementsByClassName('ball'));
+        new Hanko(document.getElementsByClassName('ball'));
       scrollHanko.init();
     })();
   });

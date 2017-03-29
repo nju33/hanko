@@ -65,7 +65,7 @@ Temporary Items
 
 /dist/**
 !/dist/.gitkeep
-!/dist/scroll-hanko.js
-!/dist/scroll-hanko.min.js
+!/dist/hanko.js
+!/dist/hanko.min.js
 /lib/style.css*
 /lib/class-name.json

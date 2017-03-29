@@ -1,12 +1,12 @@
 {
-  "name": "scroll-hanko",
+  "name": "hanko",
   "description": "",
-  "main": "dist/scroll-hanko.js",
+  "main": "dist/hanko.js",
   "authors": [
     "nju33 <nju33.ki@gmail.com>"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/nju33/scroll-hanko#readme",
+  "homepage": "https://github.com/nju33/hanko#readme",
   "ignore": [
     "**/.*",
     "node_modules",

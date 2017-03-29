@@ -4,39 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>scroll-hanko</title>
+  <title>Hanko</title>
   <link rel="stylesheet" href="index.css">
 </head>
-<body style="margin: 0;overflow:hidden">
+<body style="margin: 0;">
 
-  <h1 style="text-align:center">ScrollHanko</h1>
-  <div id="app">
-    <div class="page1" style="display:none">
-      <h1 class="h"><span>Page1</span></h1>
+  <h1 style="text-align:center">Hanko</h1>
+
+  <div class="container">
+    <div class="box">
+      <h2 id="heading1" class="headline" data-hanko-offset="3em">Heading 1</h2>
     </div>
-    <div class="page2" style="display:none">
-      <h1 class="h"><span>Page2</span></h1>
+    <div class="box">
+      <h2 id="heading2" class="headline" data-hanko-ref="heading2" data-hanko-offset="3em">Heading 2</h2>
     </div>
-    <div class="page3" style="display:none">
-      <h1 class="h"><span>Page3</span></h1>
+    <div class="box">
+      <h2 id="heading3" class="headline" data-hanko-closest=".box">Heading 3</h2>
     </div>
-    <div class="page4" style="display:none">
-      <h1 class="h"><span>Page4</span></h1>
+    <div class="box">
+      <h2 id="heading4" class="headline" data-hanko-offset="0">Heading 4</h2>
     </div>
-    <div class="page5" style="display:none">
-      <h1 class="h"><span>Page5</span></h1>
-    </div>
-    <div class="page6" style="display:none">
-      <h1 class="h"><span>Page6</span></h1>
-    </div>
-    <div class="page7" style="display:none">
-      <h1 class="h"><span>Page7</span></h1>
-    </div>
-    <div class="page8" style="display:none">
-      <h1 class="h"><span>Page8</span></h1>
+    <div class="box">
+      <h2 id="heading5" class="headline" data-hanko-closest=".box">Heading 5</h2>
     </div>
   </div>
 
-  <script src="/bundle.js"></script>
+  <div class="ball ball1" data-hanko-offset="center"></div>
+  <div class="ball ball2" data-hanko-offset="bottom"></div>
+  <div class="ball ball3" data-hanko-offset="top"></div>
+  <div class="ball ball4" data-hanko-offset="center"></div>
+
+  <script src="bundle.js"></script>
 </body>
 </html>

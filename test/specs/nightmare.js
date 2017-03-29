@@ -3,9 +3,9 @@ import test from 'ava';
 
 const nightmare = new Nightmare({});
 
-test('title is ScrollHanko', async t => {
+test('title is Hanko', async t => {
   const title = await nightmare
     .goto('http://localhost:3333')
     .title();
-  t.is(title, 'ScrollHanko');
+  t.is(title, 'Hanko');
 });
