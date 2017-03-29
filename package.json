@@ -1,6 +1,6 @@
 {
   "name": "hanko",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Do various things at the scroll position.t",
   "main": "dist/hanko.umd.js",
   "jsnext:main": "dist/hanko.es.js",
