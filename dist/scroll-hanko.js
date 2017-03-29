@@ -6,6 +6,490 @@
 var ScrollHanko = (function () {
 'use strict';
 
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+
+
+function unwrapExports (x) {
+	return x && x.__esModule ? x['default'] : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var toString = {}.toString;
+
+var _cof = function(it){
+  return toString.call(it).slice(8, -1);
+};
+
+var cof = _cof;
+var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+// 7.2.1 RequireObjectCoercible(argument)
+var _defined = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+var IObject = _iobject;
+var defined = _defined;
+var _toIobject = function(it){
+  return IObject(defined(it));
+};
+
+var f$1 = {}.propertyIsEnumerable;
+
+var _objectPie = {
+	f: f$1
+};
+
+var _propertyDesc = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+
+var _isObject = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+var isObject = _isObject;
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+var _toPrimitive = function(it, S){
+  if(!isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+var hasOwnProperty = {}.hasOwnProperty;
+var _has = function(it, key){
+  return hasOwnProperty.call(it, key);
+};
+
+var _fails = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
+
+var _descriptors = !_fails(function(){
+  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+var _global = createCommonjsModule(function (module) {
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+});
+
+var isObject$1 = _isObject;
+var document$1 = _global.document;
+var is = isObject$1(document$1) && isObject$1(document$1.createElement);
+var _domCreate = function(it){
+  return is ? document$1.createElement(it) : {};
+};
+
+var _ie8DomDefine = !_descriptors && !_fails(function(){
+  return Object.defineProperty(_domCreate('div'), 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+var pIE            = _objectPie;
+var createDesc     = _propertyDesc;
+var toIObject$1      = _toIobject;
+var toPrimitive    = _toPrimitive;
+var has            = _has;
+var IE8_DOM_DEFINE = _ie8DomDefine;
+var gOPD           = Object.getOwnPropertyDescriptor;
+
+var f = _descriptors ? gOPD : function getOwnPropertyDescriptor(O, P){
+  O = toIObject$1(O);
+  P = toPrimitive(P, true);
+  if(IE8_DOM_DEFINE)try {
+    return gOPD(O, P);
+  } catch(e){ /* empty */ }
+  if(has(O, P))return createDesc(!pIE.f.call(O, P), O[P]);
+};
+
+var _objectGopd = {
+	f: f
+};
+
+var _core = createCommonjsModule(function (module) {
+var core = module.exports = {version: '2.4.0'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+});
+
+var _aFunction = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+var aFunction = _aFunction;
+var _ctx = function(fn, that, length){
+  aFunction(fn);
+  if(that === undefined)return fn;
+  switch(length){
+    case 1: return function(a){
+      return fn.call(that, a);
+    };
+    case 2: return function(a, b){
+      return fn.call(that, a, b);
+    };
+    case 3: return function(a, b, c){
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function(/* ...args */){
+    return fn.apply(that, arguments);
+  };
+};
+
+var isObject$2 = _isObject;
+var _anObject = function(it){
+  if(!isObject$2(it))throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+var anObject       = _anObject;
+var IE8_DOM_DEFINE$1 = _ie8DomDefine;
+var toPrimitive$1    = _toPrimitive;
+var dP$1             = Object.defineProperty;
+
+var f$2 = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  anObject(O);
+  P = toPrimitive$1(P, true);
+  anObject(Attributes);
+  if(IE8_DOM_DEFINE$1)try {
+    return dP$1(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
+
+var _objectDp = {
+	f: f$2
+};
+
+var dP         = _objectDp;
+var createDesc$1 = _propertyDesc;
+var _hide = _descriptors ? function(object, key, value){
+  return dP.f(object, key, createDesc$1(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+
+var global$1    = _global;
+var core$1      = _core;
+var ctx       = _ctx;
+var hide      = _hide;
+var PROTOTYPE = 'prototype';
+
+var $export$1 = function(type, name, source){
+  var IS_FORCED = type & $export$1.F
+    , IS_GLOBAL = type & $export$1.G
+    , IS_STATIC = type & $export$1.S
+    , IS_PROTO  = type & $export$1.P
+    , IS_BIND   = type & $export$1.B
+    , IS_WRAP   = type & $export$1.W
+    , exports   = IS_GLOBAL ? core$1 : core$1[name] || (core$1[name] = {})
+    , expProto  = exports[PROTOTYPE]
+    , target    = IS_GLOBAL ? global$1 : IS_STATIC ? global$1[name] : (global$1[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if(own && key in exports)continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global$1)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(a, b, c){
+        if(this instanceof C){
+          switch(arguments.length){
+            case 0: return new C;
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if(IS_PROTO){
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if(type & $export$1.R && expProto && !expProto[key])hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export$1.F = 1;   // forced
+$export$1.G = 2;   // global
+$export$1.S = 4;   // static
+$export$1.P = 8;   // proto
+$export$1.B = 16;  // bind
+$export$1.W = 32;  // wrap
+$export$1.U = 64;  // safe
+$export$1.R = 128; // real proto method for `library` 
+var _export = $export$1;
+
+var $export = _export;
+var core    = _core;
+var fails   = _fails;
+var _objectSap = function(KEY, exec){
+  var fn  = (core.Object || {})[KEY] || Object[KEY]
+    , exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+};
+
+var toIObject                 = _toIobject;
+var $getOwnPropertyDescriptor = _objectGopd.f;
+
+_objectSap('getOwnPropertyDescriptor', function(){
+  return function getOwnPropertyDescriptor(it, key){
+    return $getOwnPropertyDescriptor(toIObject(it), key);
+  };
+});
+
+var $Object = _core.Object;
+var getOwnPropertyDescriptor$2 = function getOwnPropertyDescriptor$2(it, key){
+  return $Object.getOwnPropertyDescriptor(it, key);
+};
+
+var getOwnPropertyDescriptor$1 = createCommonjsModule(function (module) {
+module.exports = { "default": getOwnPropertyDescriptor$2, __esModule: true };
+});
+
+var _Object$getOwnPropertyDescriptor = unwrapExports(getOwnPropertyDescriptor$1);
+
+// 7.1.4 ToInteger
+var ceil  = Math.ceil;
+var floor = Math.floor;
+var _toInteger = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+var toInteger = _toInteger;
+var min       = Math.min;
+var _toLength = function(it){
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+var toInteger$1 = _toInteger;
+var max       = Math.max;
+var min$1       = Math.min;
+var _toIndex = function(index, length){
+  index = toInteger$1(index);
+  return index < 0 ? max(index + length, 0) : min$1(index, length);
+};
+
+var toIObject$3 = _toIobject;
+var toLength  = _toLength;
+var toIndex   = _toIndex;
+var _arrayIncludes = function(IS_INCLUDES){
+  return function($this, el, fromIndex){
+    var O      = toIObject$3($this)
+      , length = toLength(O.length)
+      , index  = toIndex(fromIndex, length)
+      , value;
+    // Array#includes uses SameValueZero equality algorithm
+    if(IS_INCLUDES && el != el)while(length > index){
+      value = O[index++];
+      if(value != value)return true;
+    // Array#toIndex ignores holes, Array#includes - not
+    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+      if(O[index] === el)return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+var global$2 = _global;
+var SHARED = '__core-js_shared__';
+var store  = global$2[SHARED] || (global$2[SHARED] = {});
+var _shared = function(key){
+  return store[key] || (store[key] = {});
+};
+
+var id = 0;
+var px = Math.random();
+var _uid = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+var shared = _shared('keys');
+var uid    = _uid;
+var _sharedKey = function(key){
+  return shared[key] || (shared[key] = uid(key));
+};
+
+var has$1          = _has;
+var toIObject$2    = _toIobject;
+var arrayIndexOf = _arrayIncludes(false);
+var IE_PROTO     = _sharedKey('IE_PROTO');
+
+var _objectKeysInternal = function(object, names){
+  var O      = toIObject$2(object)
+    , i      = 0
+    , result = []
+    , key;
+  for(key in O)if(key != IE_PROTO)has$1(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while(names.length > i)if(has$1(O, key = names[i++])){
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+// IE 8- don't enum bug keys
+var _enumBugKeys = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+var $keys       = _objectKeysInternal;
+var enumBugKeys = _enumBugKeys;
+
+var _objectKeys = Object.keys || function keys(O){
+  return $keys(O, enumBugKeys);
+};
+
+var f$3 = Object.getOwnPropertySymbols;
+
+var _objectGops = {
+	f: f$3
+};
+
+var defined$1 = _defined;
+var _toObject = function(it){
+  return Object(defined$1(it));
+};
+
+var getKeys  = _objectKeys;
+var gOPS     = _objectGops;
+var pIE$1      = _objectPie;
+var toObject = _toObject;
+var IObject$1  = _iobject;
+var $assign  = Object.assign;
+
+// should work with symbols and should have deterministic property order (V8 bug)
+var _objectAssign = !$assign || _fails(function(){
+  var A = {}
+    , B = {}
+    , S = Symbol()
+    , K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function(k){ B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+  var T     = toObject(target)
+    , aLen  = arguments.length
+    , index = 1
+    , getSymbols = gOPS.f
+    , isEnum     = pIE$1.f;
+  while(aLen > index){
+    var S      = IObject$1(arguments[index++])
+      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+      , length = keys.length
+      , j      = 0
+      , key;
+    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+  } return T;
+} : $assign;
+
+var $export$2 = _export;
+
+$export$2($export$2.S + $export$2.F, 'Object', {assign: _objectAssign});
+
+var assign$2 = _core.Object.assign;
+
+var assign$1 = createCommonjsModule(function (module) {
+module.exports = { "default": assign$2, __esModule: true };
+});
+
+var _Object$assign = unwrapExports(assign$1);
+
+var classCallCheck = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+exports.default = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+});
+
+var _classCallCheck = unwrapExports(classCallCheck);
+
+var $export$3 = _export;
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export$3($export$3.S + $export$3.F * !_descriptors, 'Object', {defineProperty: _objectDp.f});
+
+var $Object$1 = _core.Object;
+var defineProperty$3 = function defineProperty$3(it, key, desc){
+  return $Object$1.defineProperty(it, key, desc);
+};
+
+var defineProperty$1 = createCommonjsModule(function (module) {
+module.exports = { "default": defineProperty$3, __esModule: true };
+});
+
+var createClass = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+var _defineProperty = defineProperty$1;
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+});
+
+var _createClass = unwrapExports(createClass);
+
 /**
  * Element prototype.
  */
@@ -82,16 +566,13 @@ var index = function (element, selector, checkYoSelf) {
  * _.isObject(null);
  * // => false
  */
-function isObject$2(value) {
+function isObject$5(value) {
   var type = typeof value;
   return value != null && (type == 'object' || type == 'function');
 }
 
-var isObject_1 = isObject$2;
+var isObject_1 = isObject$5;
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-/** Detect free variable `global` from Node.js. */
 var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
 
 var _freeGlobal = freeGlobal$1;
@@ -143,7 +624,7 @@ var Symbol$3 = _Symbol;
 var objectProto = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
+var hasOwnProperty$1 = objectProto.hasOwnProperty;
 
 /**
  * Used to resolve the
@@ -163,7 +644,7 @@ var symToStringTag$1 = Symbol$3 ? Symbol$3.toStringTag : undefined;
  * @returns {string} Returns the raw `toStringTag`.
  */
 function getRawTag$1(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag$1),
+  var isOwn = hasOwnProperty$1.call(value, symToStringTag$1),
       tag = value[symToStringTag$1];
 
   try {
@@ -296,7 +777,7 @@ function isSymbol$1(value) {
 
 var isSymbol_1 = isSymbol$1;
 
-var isObject$3 = isObject_1;
+var isObject$6 = isObject_1;
 var isSymbol = isSymbol_1;
 
 /** Used as references for various `Number` constants. */
@@ -347,9 +828,9 @@ function toNumber$1(value) {
   if (isSymbol(value)) {
     return NAN;
   }
-  if (isObject$3(value)) {
+  if (isObject$6(value)) {
     var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject$3(other) ? (other + '') : other;
+    value = isObject$6(other) ? (other + '') : other;
   }
   if (typeof value != 'string') {
     return value === 0 ? value : +value;
@@ -363,7 +844,7 @@ function toNumber$1(value) {
 
 var toNumber_1 = toNumber$1;
 
-var isObject$1 = isObject_1;
+var isObject$4 = isObject_1;
 var now = now_1;
 var toNumber = toNumber_1;
 
@@ -444,7 +925,7 @@ function debounce$1(func, wait, options) {
     throw new TypeError(FUNC_ERROR_TEXT$1);
   }
   wait = toNumber(wait) || 0;
-  if (isObject$1(options)) {
+  if (isObject$4(options)) {
     leading = !!options.leading;
     maxing = 'maxWait' in options;
     maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
@@ -553,7 +1034,7 @@ function debounce$1(func, wait, options) {
 var debounce_1 = debounce$1;
 
 var debounce = debounce_1;
-var isObject = isObject_1;
+var isObject$3 = isObject_1;
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -609,7 +1090,7 @@ function throttle(func, wait, options) {
   if (typeof func != 'function') {
     throw new TypeError(FUNC_ERROR_TEXT);
   }
-  if (isObject(options)) {
+  if (isObject$3(options)) {
     leading = 'leading' in options ? !!options.leading : leading;
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }
@@ -621,6 +1102,22 @@ function throttle(func, wait, options) {
 }
 
 var throttle_1 = throttle;
+
+/**
+ * Creates an array with all falsey values removed. The values `false`, `null`,
+ * `0`, `""`, `undefined`, and `NaN` are falsey.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to compact.
+ * @returns {Array} Returns the new array of filtered values.
+ * @example
+ *
+ * _.compact([0, 1, false, 2, '', 3]);
+ * // => [1, 2, 3]
+ */
 
 var NativeCustomEvent = commonjsGlobal.CustomEvent;
 
@@ -670,104 +1167,151 @@ function CustomEvent (type, params) {
   return e;
 };
 
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
+var index$4 = createCommonjsModule(function (module, exports) {
+/**
+ * @copyright 2015, Andrey Popp <8mayday@gmail.com>
+ *
+ * The decorator may be used on classes or methods
+ * ```
+ * @autobind
+ * class FullBound {}
+ *
+ * class PartBound {
+ *   @autobind
+ *   method () {}
+ * }
+ * ```
+ */
+'use strict';
 
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = autobind;
+
+function autobind() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  if (args.length === 1) {
+    return boundClass.apply(undefined, args);
+  } else {
+    return boundMethod.apply(undefined, args);
+  }
+}
+
+/**
+ * Use boundMethod to bind all methods on the target.prototype
+ */
+function boundClass(target) {
+  // (Using reflect to get all keys including symbols)
+  var keys = undefined;
+  // Use Reflect if exists
+  if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
+    keys = Reflect.ownKeys(target.prototype);
+  } else {
+    keys = Object.getOwnPropertyNames(target.prototype);
+    // use symbols if support is provided
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
     }
   }
 
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
+  keys.forEach(function (key) {
+    // Ignore special case target method
+    if (key === 'constructor') {
+      return;
+    }
+
+    var descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
+
+    // Only methods need binding
+    if (typeof descriptor.value === 'function') {
+      Object.defineProperty(target.prototype, key, boundMethod(target, key, descriptor));
+    }
+  });
+  return target;
+}
+
+/**
+ * Return a descriptor removing the value and returning a getter
+ * The getter will return a .bind version of the function
+ * and memoize the result against a symbol on the instance
+ */
+function boundMethod(target, key, descriptor) {
+  var fn = descriptor.value;
+
+  if (typeof fn !== 'function') {
+    throw new Error('@autobind decorator can only be applied to methods not: ' + typeof fn);
+  }
+
+  // In IE11 calling Object.defineProperty has a side-effect of evaluating the
+  // getter for the property which is being replaced. This causes infinite
+  // recursion and an "Out of stack space" error.
+  var definingProperty = false;
+
+  return {
+    configurable: true,
+    get: function get() {
+      if (definingProperty || this === target.prototype || this.hasOwnProperty(key)) {
+        return fn;
+      }
+
+      var boundFn = fn.bind(this);
+      definingProperty = true;
+      Object.defineProperty(this, key, {
+        value: boundFn,
+        configurable: true,
+        writable: true
+      });
+      definingProperty = false;
+      return boundFn;
+    }
   };
-}();
+}
+module.exports = exports['default'];
+});
 
+var autobind = unwrapExports(index$4);
 
+var _class;
+var _class2;
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
 
-
-
-
-var get$1 = function get$1(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get$1(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var set = function set(object, property, value, receiver) {
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent !== null) {
-      set(parent, property, value, receiver);
-    }
-  } else if ("value" in desc && desc.writable) {
-    desc.value = value;
-  } else {
-    var setter = desc.set;
-
-    if (setter !== undefined) {
-      setter.call(receiver, value);
-    }
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
   }
 
-  return value;
-};
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
 
-var HankoElement = function () {
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var HankoElement = (_class = function () {
   function HankoElement(element) {
     var _this = this;
 
-    classCallCheck(this, HankoElement);
+    _classCallCheck(this, HankoElement);
 
     this.element = element;
     this.closest = function () {
@@ -780,9 +1324,10 @@ var HankoElement = function () {
     if (this.closest !== null) {
       this.element.style.width = this.setWidth();
     }
-    this.element.classList.add('hanko-target');
-    this.element.classList.add('hanko-deactive');
+
+    this.addClasses('target', 'deactive');
     this.entered = false;
+
     var detail = { hanko: this };
     this.events = {
       enter: new index$3('hankoenter', { detail: detail }),
@@ -791,11 +1336,41 @@ var HankoElement = function () {
       leaveend: new index$3('hankoleaveend', { detail: detail })
     };
 
-    this.handleTransitionend = this.createTransitionendHandler();
-    this.element.addEventListener('transitionend', this.handleTransitionend);
+    this.init();
   }
 
-  createClass(HankoElement, [{
+  _createClass(HankoElement, [{
+    key: 'init',
+    value: function init() {
+      this.element.addEventListener('transitionend', this.handleTransitionend);
+    }
+  }, {
+    key: 'handleTransitionend',
+    value: function handleTransitionend() {
+      this.removeClasses('enter-to', 'leave-to');
+      if (this.entered) {
+        this.element.dispatchEvent(this.events.enterend);
+      } else {
+        this.element.dispatchEvent(this.events.leaveend);
+      }
+    }
+  }, {
+    key: 'calcWidth',
+    value: function calcWidth(size) {
+      var tmp = document.createElement('div');
+      _Object$assign(tmp.style, {
+        position: 'absolute',
+        left: '9999px',
+        top: '9999px',
+        height: size
+      });
+      this.element.parentElement.insertBefore(tmp, this.element);
+      var num = Number(getComputedStyle(tmp).height.match(/^\d+/)[0]);
+      this.element.parentElement.removeChild(tmp);
+      tmp = null;
+      return num;
+    }
+  }, {
     key: 'setWidth',
     value: function setWidth() {
       var css = window.getComputedStyle(this.closest);
@@ -809,21 +1384,6 @@ var HankoElement = function () {
         return true;
       }
       return false;
-    }
-  }, {
-    key: 'createTransitionendHandler',
-    value: function createTransitionendHandler() {
-      var _this2 = this;
-
-      return function () {
-        _this2.element.classList.remove('hanko-enter-to');
-        _this2.element.classList.remove('hanko-leave-to');
-        if (_this2.entered) {
-          _this2.element.dispatchEvent(_this2.events.enterend);
-        } else {
-          _this2.element.dispatchEvent(_this2.events.leaveend);
-        }
-      };
     }
   }, {
     key: 'refresh',
@@ -842,6 +1402,32 @@ var HankoElement = function () {
       }
     }
   }, {
+    key: 'addClasses',
+    value: function addClasses() {
+      var _this2 = this;
+
+      for (var _len = arguments.length, classes = Array(_len), _key = 0; _key < _len; _key++) {
+        classes[_key] = arguments[_key];
+      }
+
+      classes.forEach(function (className) {
+        _this2.element.classList.add('hanko-' + className);
+      });
+    }
+  }, {
+    key: 'removeClasses',
+    value: function removeClasses() {
+      var _this3 = this;
+
+      for (var _len2 = arguments.length, classes = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        classes[_key2] = arguments[_key2];
+      }
+
+      classes.forEach(function (className) {
+        _this3.element.classList.remove('hanko-' + className);
+      });
+    }
+  }, {
     key: 'isEnter',
     value: function isEnter() {
       var _element$getBoundingC2 = this.element.getBoundingClientRect(),
@@ -850,7 +1436,7 @@ var HankoElement = function () {
       var offsetTop = Math.floor(top + window.pageYOffset);
 
       var scrollTop = document.body.scrollTop;
-      if (offsetTop - this.offsets[0] <= scrollTop && offsetTop - this.offsets[1] + this.height > scrollTop) {
+      if (offsetTop - this.offsets <= scrollTop && offsetTop + this.offsets + this.height > scrollTop) {
         return true;
       }
       return false;
@@ -858,24 +1444,23 @@ var HankoElement = function () {
   }, {
     key: 'enter',
     value: function enter() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.entered) {
         return;
       }
 
       this.entered = true;
-      this.element.classList.remove('hanko-deactive');
-      this.element.classList.remove('hanko-leave');
-      this.element.classList.remove('hanko-leave-to');
-      this.element.classList.add('hanko-enter');
+
+      this.removeClasses('deactive', 'leave', 'leave-to');
+      this.addClasses('enter');
       this.element.style.transition = 'none';
       setTimeout(function () {
-        _this3.element.classList.remove('hanko-enter');
-        _this3.element.classList.add('hanko-active');
-        _this3.element.style.transition = '';
-        if (_this3.hasTransition()) {
-          _this3.element.classList.add('hanko-enter-to');
+        _this4.removeClasses('enter');
+        _this4.addClasses('active');
+        _this4.element.style.transition = '';
+        if (_this4.hasTransition()) {
+          _this4.addClasses('enter-to');
         }
       }, 1);
 
@@ -884,24 +1469,22 @@ var HankoElement = function () {
   }, {
     key: 'leave',
     value: function leave() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (!this.entered) {
         return;
       }
 
       this.entered = false;
-      this.element.classList.remove('hanko-active');
-      this.element.classList.remove('hanko-enter');
-      this.element.classList.remove('hanko-enter-to');
-      this.element.classList.add('hanko-leave');
+      this.removeClasses('active', 'enter', 'enter-to');
+      this.addClasses('leave');
       this.element.style.transition = 'none';
       setTimeout(function () {
-        _this4.element.classList.remove('hanko-leave');
-        _this4.element.classList.add('hanko-deactive');
-        _this4.element.style.transition = '';
-        if (_this4.hasTransition()) {
-          _this4.element.classList.add('hanko-leave-to');
+        _this5.removeClasses('leave');
+        _this5.addClasses('deactive');
+        _this5.element.style.transition = '';
+        if (_this5.hasTransition()) {
+          _this5.addClasses('leave-to');
         }
       }, 1);
 
@@ -920,57 +1503,41 @@ var HankoElement = function () {
   }, {
     key: 'offsets',
     get: function get() {
-      var _this5 = this;
+      var attr = this.element.getAttribute('data-hanko-offset') || null;
 
-      var _attrs = (this.element.getAttribute('data-hanko-offset') || '').split(' ');
-      if (_attrs.length > 2) {
-        console.warn('Specify up to two.', _attrs);
-      }
-      var attrs = _attrs.slice(0, 2);
-      while (attrs.length !== 2) {
-        attrs.push(0);
+      if (attr === null) {
+        return 0;
       }
 
-      return attrs.map(function (attr) {
-        switch (attrs) {
-          case 'center':
-            {
-              return Math.round(window.innerHeight / 2) - _this5.halfHeight;
+      switch (attr) {
+        case 'center':
+          {
+            return Math.round(window.innerHeight / 2) - this.halfHeight;
+          }
+        case 'bottom':
+          {
+            return window.innerHeight - this.halfHeight;
+          }
+        case 'top':
+        default:
+          {
+            if (/px|r?em|%|vw|vh|vmax|vmin/.test(attr)) {
+              return this.calcWidth(attr);
             }
-          case 'bottom':
-            {
-              return Math.round(window.innerHeight / 2) - _this5.height;
-            }
-          case 'top':
-          default:
-            {
-              if (/px|r?em|%|vw|vh|vmax|vmin/.test(attr)) {
-                var tmp = document.createElement('div');
-                Object.assign(tmp.style, {
-                  position: 'absolute',
-                  left: '9999px',
-                  top: '9999px',
-                  width: attr
-                });
-                _this5.element.parentElement.insertBefore(tmp, _this5.element);
-                var n = Number(getComputedStyle(tmp).width.match(/^\d+/)[0]);
-                _this5.element.parentElement.removeChild(tmp);
-                tmp = null;
-                return n;
-              }
-              return 0;
-            }
-        }
-      });
+            return 0;
+          }
+      }
     }
   }]);
-  return HankoElement;
-}();
 
-var ScrollHanko = function () {
-  function ScrollHanko(els) {
+  return HankoElement;
+}(), (_applyDecoratedDescriptor(_class.prototype, 'handleTransitionend', [autobind], _Object$getOwnPropertyDescriptor(_class.prototype, 'handleTransitionend'), _class.prototype)), _class);
+
+var Hanko = autobind(_class2 = function () {
+  function Hanko(els) {
     var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { scrollWait: 20, resizeWait: 50 };
-    classCallCheck(this, ScrollHanko);
+
+    _classCallCheck(this, Hanko);
 
     if (els instanceof HTMLCollection) {
       els = Array.prototype.slice.call(els);
@@ -988,7 +1555,7 @@ var ScrollHanko = function () {
     this.active = null;
   }
 
-  createClass(ScrollHanko, [{
+  _createClass(Hanko, [{
     key: 'leave',
     value: function leave(ignores) {
       if (Array.isArray(ignores)) {
@@ -1020,19 +1587,12 @@ var ScrollHanko = function () {
   }, {
     key: 'createThrottleScrollHandler',
     value: function createThrottleScrollHandler() {
-      return throttle_1(this.handleScroll.bind(this), this.opts.scrollWait || 20);
+      return throttle_1(this.handleScroll, this.opts.scrollWait || 20);
     }
   }, {
     key: 'createDebounceScrollHandler',
     value: function createDebounceScrollHandler() {
-      return debounce_1(this.handleScroll.bind(this), this.opts.scrollWait || 20);
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      this.hankos.forEach(function (hanko) {
-        hanko.refresh();
-      });
+      return debounce_1(this.handleScroll, this.opts.scrollWait || 20);
     }
   }, {
     key: 'handleResize',
@@ -1042,12 +1602,19 @@ var ScrollHanko = function () {
   }, {
     key: 'createThrottleResizeHandler',
     value: function createThrottleResizeHandler() {
-      return throttle_1(this.handleResize.bind(this), this.opts.resizeWait || 50);
+      return throttle_1(this.handleResize, this.opts.resizeWait || 50);
     }
   }, {
     key: 'createDebounceResizeHandler',
     value: function createDebounceResizeHandler() {
-      return throttle_1(this.handleResize.bind(this), this.opts.resizeWait || 50);
+      return throttle_1(this.handleResize, this.opts.resizeWait || 50);
+    }
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      this.hankos.forEach(function (hanko) {
+        hanko.refresh();
+      });
     }
   }, {
     key: 'init',
@@ -1069,9 +1636,10 @@ var ScrollHanko = function () {
       }, {});
     }
   }]);
-  return ScrollHanko;
-}();
 
-return ScrollHanko;
+  return Hanko;
+}()) || _class2;
+
+return Hanko;
 
 }());

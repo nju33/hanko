@@ -80,8 +80,8 @@ h2.hanko-deactive {
 }
 
 .ball {
-  width: 30vw;
-  height: 30vw;
+  width: 10em;
+  height: 10em;
   position: absolute;
   border-radius: 50%;
   transition: .3s;

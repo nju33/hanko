@@ -6,7 +6,10 @@
     }]
   ],
   "plugins": [
+    "transform-runtime",
     "external-helpers",
+    "transform-decorators-legacy",
+    "transform-object-rest-spread",
     "transform-class-properties"
   ]
 }
