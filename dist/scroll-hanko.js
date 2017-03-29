@@ -1103,22 +1103,6 @@ function throttle(func, wait, options) {
 
 var throttle_1 = throttle;
 
-/**
- * Creates an array with all falsey values removed. The values `false`, `null`,
- * `0`, `""`, `undefined`, and `NaN` are falsey.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to compact.
- * @returns {Array} Returns the new array of filtered values.
- * @example
- *
- * _.compact([0, 1, false, 2, '', 3]);
- * // => [1, 2, 3]
- */
-
 var NativeCustomEvent = commonjsGlobal.CustomEvent;
 
 function useNative () {
@@ -1345,6 +1329,11 @@ var HankoElement = (_class = function () {
       this.element.addEventListener('transitionend', this.handleTransitionend);
     }
   }, {
+    key: 'teardown',
+    value: function teardown() {
+      this.element.removeEventListener('transitionend', this.handleTransitionend);
+    }
+  }, {
     key: 'handleTransitionend',
     value: function handleTransitionend() {
       this.removeClasses('enter-to', 'leave-to');
@@ -1379,11 +1368,14 @@ var HankoElement = (_class = function () {
   }, {
     key: 'hasTransition',
     value: function hasTransition() {
-      var css = window.getComputedStyle(this.element);
-      if (css.transitionDuration !== '0s') {
-        return true;
-      }
-      return false;
+      var css = getComputedStyle(this.element);
+      return css.transitionDuration !== '0s';
+    }
+  }, {
+    key: 'hasPositionFixed',
+    value: function hasPositionFixed() {
+      var css = getComputedStyle(this.element);
+      return css.position === 'fixed';
     }
   }, {
     key: 'refresh',
@@ -1542,7 +1534,7 @@ var Hanko = autobind(_class2 = function () {
     if (els instanceof HTMLCollection) {
       els = Array.prototype.slice.call(els);
     }
-    this.hankos = els.map(function (el) {
+    this.hankoElements = els.map(function (el) {
       return new HankoElement(el);
     });
     this.opts = opts;
@@ -1559,7 +1551,7 @@ var Hanko = autobind(_class2 = function () {
     key: 'leave',
     value: function leave(ignores) {
       if (Array.isArray(ignores)) {
-        this.hankos.forEach(function (hanko) {
+        this.hankoElements.forEach(function (hanko) {
           if (ignores.indexOf(hanko) === -1) {
             hanko.leave();
           }
@@ -1573,10 +1565,11 @@ var Hanko = autobind(_class2 = function () {
   }, {
     key: 'handleScroll',
     value: function handleScroll() {
-      this.hankos.forEach(function () {
+      this.hankoElements.forEach(function () {
         return function (hanko) {
-          var enter = hanko.isEnter();
-          if (enter) {
+          if (hanko.hasPositionFixed()) {
+            return;
+          } else if (hanko.isEnter()) {
             hanko.enter();
           } else {
             hanko.leave();
@@ -1612,22 +1605,40 @@ var Hanko = autobind(_class2 = function () {
   }, {
     key: 'refresh',
     value: function refresh() {
-      this.hankos.forEach(function (hanko) {
+      this.hankoElements.forEach(function (hanko) {
         hanko.refresh();
       });
     }
   }, {
     key: 'init',
     value: function init() {
+      var _this6 = this;
+
       window.addEventListener('scroll', this.handleThrottleScroll);
       window.addEventListener('scroll', this.handleDebounceScroll);
       window.addEventListener('resize', this.handleThrottleResize);
       window.addEventListener('resize', this.handleDebounceResize);
+      window.addEventListener('touchmove', function () {
+        console.log(9);
+        _this6.handleThrottleScroll();
+      });
+      // window.addEventListener('touchmove', this.handleThrottleScroll);
+    }
+  }, {
+    key: 'teardown',
+    value: function teardown() {
+      window.removedEventListener('scroll', this.handleThrottleScroll);
+      window.removedEventListener('scroll', this.handleDebounceScroll);
+      window.removedEventListener('resize', this.handleThrottleResize);
+      window.removedEventListener('resize', this.handleDebounceResize);
+      this.hankoElements.forEach(function (hanko) {
+        hanko.teardown();
+      });
     }
   }, {
     key: 'refs',
     get: function get() {
-      return this.hankos.reduce(function (result, hanko) {
+      return this.hankoElements.reduce(function (result, hanko) {
         var name = hanko.element.getAttribute('data-hanko-ref');
         if (name) {
           result[name] = hanko;

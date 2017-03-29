@@ -4,8 +4,7 @@
     (() => {
       const scrollHanko = new ScrollHanko(els);
       scrollHanko.init();
-
-      for (const el of els) {
+      Array.prototype.slice.call(els).forEach(function (el) {
         el.addEventListener('hankoenter', ev => {
           console.log(el.id, ev.type);
           scrollHanko.leave([ev.detail.hanko]);
@@ -19,7 +18,7 @@
         el.addEventListener('hankoleaveend', ev => {
           console.log(el.id, ev.type);
         });
-      }
+      });
     })();
 
     (() => {
