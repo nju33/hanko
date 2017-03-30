@@ -57,7 +57,7 @@ Then, download the latest version.
 <div data-hanko-offset="center">Heading 2</h2>
 
 <!-- When reading by itself -->
-<script src="/path/tp/apoc-sidebar.js"></script>
+<script src="/path/tp/hanko.js"></script>
 ```
 
 ```js
@@ -65,7 +65,12 @@ import Hanko from 'hanko';
 
 window.addEventListener('DOMContentLoaded', () => {
   const els = document.getElementsByClassName('target');
-  const hanko = new Hanko(els);
+  const hanko = new Hanko(els, {
+    // Process every 20 milliseconds
+    scrollWait: 20,
+    // After completion of scrolling, once again after specified milliseconds
+    resizeWait: 50
+  });
   // Initialization
   hanko.init();
 
