@@ -505,57 +505,6 @@ exports.default = function () {
 var _createClass = unwrapExports(createClass);
 
 /**
- * Element prototype.
- */
-
-var proto = Element.prototype;
-
-/**
- * Vendor function.
- */
-
-var vendor = proto.matchesSelector
-  || proto.webkitMatchesSelector
-  || proto.mozMatchesSelector
-  || proto.msMatchesSelector
-  || proto.oMatchesSelector;
-
-/**
- * Expose `match()`.
- */
-
-var index$1 = match;
-
-/**
- * Match `el` to `selector`.
- *
- * @param {Element} el
- * @param {String} selector
- * @return {Boolean}
- * @api public
- */
-
-function match(el, selector) {
-  if (vendor) return vendor.call(el, selector);
-  var nodes = el.parentNode.querySelectorAll(selector);
-  for (var i = 0; i < nodes.length; ++i) {
-    if (nodes[i] == el) return true;
-  }
-  return false;
-}
-
-var matches = index$1;
-
-var index = function (element, selector, checkYoSelf) {
-  var parent = checkYoSelf ? element : element.parentNode;
-
-  while (parent && parent !== document) {
-    if (matches(parent, selector)) return parent;
-    parent = parent.parentNode;
-  }
-};
-
-/**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
  * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -1137,7 +1086,7 @@ function useNative () {
  * @public
  */
 
-var index$3 = useNative() ? NativeCustomEvent :
+var index = useNative() ? NativeCustomEvent :
 
 // IE >= 9
 'undefined' !== typeof document && 'function' === typeof document.createEvent ? function CustomEvent (type, params) {
@@ -1166,7 +1115,7 @@ function CustomEvent (type, params) {
   return e;
 };
 
-var index$4 = createCommonjsModule(function (module, exports) {
+var index$1 = createCommonjsModule(function (module, exports) {
 /**
  * @copyright 2015, Andrey Popp <8mayday@gmail.com>
  *
@@ -1272,7 +1221,7 @@ function boundMethod(target, key, descriptor) {
 module.exports = exports['default'];
 });
 
-var autobind = unwrapExports(index$4);
+var autobind = unwrapExports(index$1);
 
 var _class;
 var _class2;
@@ -1316,7 +1265,15 @@ var HankoElement = (_class = function () {
     this.closest = function () {
       var selector = element.getAttribute('data-hanko-closest');
       if (selector) {
-        return index(_this.element, selector);
+        var $parent = document.querySelector(selector);
+        var el = _this.element.parentElement;
+        while (el.tagName !== 'HTML') {
+          if (el === $parent) {
+            return el;
+          }
+          el = el.parentElement;
+        }
+        return null;
       }
       return null;
     }();
@@ -1330,10 +1287,10 @@ var HankoElement = (_class = function () {
 
     var detail = { hanko: this };
     this.events = {
-      enter: new index$3('hankoenter', { detail: detail }),
-      leave: new index$3('hankoleave', { detail: detail }),
-      enterend: new index$3('hankoenterend', { detail: detail }),
-      leaveend: new index$3('hankoleaveend', { detail: detail })
+      enter: new index('hankoenter', { detail: detail }),
+      leave: new index('hankoleave', { detail: detail }),
+      enterend: new index('hankoenterend', { detail: detail }),
+      leaveend: new index('hankoleaveend', { detail: detail })
     };
 
     this.init();
